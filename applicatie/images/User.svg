@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+      }
+
+      .cls-1 {
+        stroke: #000;
+        stroke-width: 2px;
+      }
+
+      .cls-2 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="User" transform="translate(-9 -13)">
+    <g id="fi-rr-user" transform="translate(15 19)">
+      <path id="Path_21" data-name="Path 21" d="M11.5,11A5.5,5.5,0,1,0,6,5.5,5.5,5.5,0,0,0,11.5,11Zm0-9.167A3.667,3.667,0,1,1,7.833,5.5,3.667,3.667,0,0,1,11.5,1.833Z" transform="translate(-0.25)"/>
+      <path id="Path_22" data-name="Path 22" d="M11.25,14A8.259,8.259,0,0,0,3,22.25a.917.917,0,1,0,1.833,0,6.417,6.417,0,0,1,12.833,0,.917.917,0,0,0,1.833,0A8.259,8.259,0,0,0,11.25,14Z" transform="translate(0 -1.167)"/>
+    </g>
+    <g id="Ellipse_1" data-name="Ellipse 1" class="cls-1" transform="translate(9 13)">
+      <circle class="cls-2" cx="17.5" cy="17.5" r="17.5"/>
+      <circle class="cls-3" cx="17.5" cy="17.5" r="16.5"/>
+    </g>
+  </g>
+</svg>

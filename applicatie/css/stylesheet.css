@@ -1,0 +1,248 @@
+html, body{
+    background-color: #B9CEDD;
+    background-image: url(../images/Background.svg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: Helvetica, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+main {
+    width: 100%;
+    height: 100%;
+}
+
+nav { 
+    display: flex;
+    background: white;
+    position: fixed;
+	overflow: hidden;
+    width: fit-content;
+    height: 100%;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0; 
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.push {
+    margin-top: auto;
+}
+
+nav ul li a img {
+    padding: 15px;
+    transition: 0.75s;
+}
+
+nav ul li a img:hover {
+    transform: translateX(5px);
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%; 
+}
+
+.container form{
+    background-color: white;
+    padding: 2%;
+    box-shadow: 2px 2px 12px 4px #b8b8b8;
+    border-radius: 10px;
+    width: 30%; 
+    min-width: fit-content;
+}
+
+.flightbooker {
+    display: grid;
+    align-content: space-evenly;
+    grid-template-columns: 10% 90%;
+    grid-template-rows: 15% 15% 15% 15% 30%;
+}
+
+form h2{
+    margin: 0;
+    padding: 0;
+}
+
+.flightbooker input[type="text"] {
+    border-radius: 10px;
+    border: 1px solid #3f3f3f;
+    width: 80%;
+}
+
+#departureSVG {
+    grid-row: 1/1;
+    grid-column: 1/1;
+}
+
+#departure {
+    grid-row: 1/1;
+    grid-column: 2/3;
+    justify-self: center;
+}
+
+#arrivalSVG {
+    grid-row: 2/3;
+    grid-column: 1/1;
+}
+
+#arrival {
+    grid-row: 2/3;
+    grid-column: 2/3;
+    justify-self: center;
+}
+
+#date {
+    grid-row: 3/4;
+    grid-column: 1/3;
+}
+
+#flightnumber {
+    width: 100%;
+    grid-row: 4/5;
+    grid-column: 1/3;
+}
+
+.flightbooker #submit {
+    grid-row: 5/6;
+    grid-column: 1/3;
+}
+
+.loginForm {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 10% 90%;
+    grid-template-rows: 20% 20% 20% 30%;
+    align-content: space-evenly;
+}
+
+.loginForm h2{
+    margin: 0;
+    padding: 0;
+}
+
+.loginForm input {
+    border-radius: 10px;
+    border: 1px solid rgb(63, 63, 63);
+    width: 80%;
+}
+
+#usernameSVG {
+    grid-row: 1/1;
+    grid-column: 1/1;
+}
+
+#username {
+    justify-self: center;
+    grid-row: 1/1;
+    grid-column: 2/3;
+}
+
+#passwordSVG {
+    grid-row: 2/3;
+    grid-column: 1/1;
+}
+
+#password {
+    justify-self: center;
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+
+#submit {
+    grid-row: 4/5;
+    grid-column: 1/3;
+    
+}
+
+table {
+    border-collapse: collapse;
+    width: 80%;
+    background-color: white;
+    color: black;
+    text-align: center;
+    border: 3px;
+}
+
+.vluchttabel {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+table th {
+    background-color: #1899D6;
+    padding: 15px;
+}
+
+td {
+    padding: 8px; 
+}
+
+.privacypolicy {
+    margin-top: 0;
+    background-color: white;
+    width: fit-content;
+    margin-left: 65px;
+    padding: 2.5%;
+}
+.privacypolicy h1 {
+    margin-top: 0;
+    padding-top: 15px;
+}
+
+.extrabuttonprops {
+    width: 100%;
+}
+
+.button {
+  background-color: #1899D6;
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  color: #FFFFFF;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  line-height: 20px;
+  padding: 13px 16px;
+  text-align: center;
+  text-transform: uppercase;
+  transform: translateZ(0);
+  transition: filter .2s;
+  margin: 5px;
+}
+  
+.button:after {
+  background-clip: padding-box;
+  background-color: #1CB0F6;
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  bottom: -4px;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+  }
+
+.button:hover {
+  filter: brightness(1.1);
+}
+  
+ a {
+    color: inherit;
+    text-decoration: none;
+ }
