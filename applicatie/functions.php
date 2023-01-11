@@ -10,6 +10,19 @@ function login_redirect()
 
 //----------------------------------------------------
 
+function page_redirect() {
+    if($_SERVER['PHP_SELF'] == '/addflight.php' || 
+    $_SERVER['PHP_SELF'] == '/addpassenger.php' ||
+    $_SERVER['PHP_SELF'] == '/succespage.php' ||
+    $_SERVER['PHP_SELF'] == '/userpage.php')
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == false) {
+            header('location: userchoice.php');
+        }
+    }
+
+
+//----------------------------------------------------
+
 function destroy_session()
 {
     if (isset($_POST['destroy_session'])) {
@@ -22,7 +35,7 @@ function destroy_session()
 
 //----------------------------------------------------
 
-function getFlights($isAdmin, $waar = '1 OR 1=1')
+function getFlights($isAdmin, $where = '1 OR 1=1')
 {
     $conn = maakVerbinding();
 
@@ -76,40 +89,40 @@ function getFlights($isAdmin, $waar = '1 OR 1=1')
         $order = $_POST['order'];
     }
 
-    //Hier geen placeholders gebruikt maar hoogstwaarschijnlijk wel handig om te doen!!!!
+    
     if ($order == 'vluchthaven') {
-        $sql = "SELECT * FROM Vlucht WHERE vluchtnummer = $waar ORDER BY vluchtnummer";
+        $sql = "SELECT * FROM Vlucht WHERE vluchtnummer = $where ORDER BY vluchtnummer";
     } else if ($order == 'vertrektijd') {
-        $sql = "SELECT * FROM Vlucht WHERE vluchtnummer = $waar ORDER BY vertrektijd";
+        $sql = "SELECT * FROM Vlucht WHERE vluchtnummer = $where ORDER BY vertrektijd";
     } else {
-        $sql = "SELECT * FROM Vlucht WHERE vluchtnummer = $waar";
+        $sql = "SELECT * FROM Vlucht WHERE vluchtnummer = $where";
     }
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
     if ($isAdmin == true) {
-        foreach ($stmt as $rij) {
+        foreach ($stmt as $row) {
             $data .= '<tr>';
-            $data .= '<td>' . $rij['vluchtnummer'] . '</td>';
-            $data .= '<td>' . $rij['bestemming'] . '</td>';
-            $data .= '<td>' . $rij['gatecode'] . '</td>';
-            $data .= '<td>' . $rij['max_aantal'] . '</td>';
-            $data .= '<td>' . $rij['max_gewicht_pp'] . '</td>';
-            $data .= '<td>' . $rij['max_totaalgewicht'] . '</td>';
-            $data .= '<td>' . $rij['vertrektijd'] . '</td>';
-            $data .= '<td>' . $rij['maatschappijcode'] . '</td>';
+            $data .= '<td>' . $row['vluchtnummer'] . '</td>';
+            $data .= '<td>' . $row['bestemming'] . '</td>';
+            $data .= '<td>' . $row['gatecode'] . '</td>';
+            $data .= '<td>' . $row['max_aantal'] . '</td>';
+            $data .= '<td>' . $row['max_gewicht_pp'] . '</td>';
+            $data .= '<td>' . $row['max_totaalgewicht'] . '</td>';
+            $data .= '<td>' . $row['vertrektijd'] . '</td>';
+            $data .= '<td>' . $row['maatschappijcode'] . '</td>';
 
             $data .= '</tr>';
         }
         $data .= '</table';
     } else {
-        foreach ($stmt as $rij) {
+        foreach ($stmt as $row) {
             $data .= '<tr>';
-            $data .= '<td>' . $rij['vluchtnummer'] . '</td>';
-            $data .= '<td>' . $rij['bestemming'] . '</td>';
-            $data .= '<td>' . $rij['gatecode'] . '</td>';
-            $data .= '<td>' . $rij['vertrektijd'] . '</td>';
-            $data .= '<td>' . $rij['maatschappijcode'] . '</td>';
+            $data .= '<td>' . $row['vluchtnummer'] . '</td>';
+            $data .= '<td>' . $row['bestemming'] . '</td>';
+            $data .= '<td>' . $row['gatecode'] . '</td>';
+            $data .= '<td>' . $row['vertrektijd'] . '</td>';
+            $data .= '<td>' . $row['maatschappijcode'] . '</td>';
 
             $data .= '</tr>';
         }
@@ -121,17 +134,17 @@ function getFlights($isAdmin, $waar = '1 OR 1=1')
 
 //----------------------------------------------------
 
-function addFlight($bestemming, $gatecode, $max_aantal, $max_gewicht_pp, $max_totaalgewicht, $vertrektijd, $maatschappijcode)
+function addFlight($destination, $gatecode, $max_amnt, $max_weight_pp, $max_totalweight, $departure_time, $firmcode)
 {
     $db = maakVerbinding();
     $success = false;
 
     $curDate = getCurDate();
-    $vertrektijd = formatDate($vertrektijd);
+    $departure_time = formatDate($departure_time);
 
-    $vluchtnummer = getMax('vluchtnummer', 'Vlucht') + 1;
+    $flightnumber = getMax('vluchtnummer', 'Vlucht') + 1;
 
-    if ($vertrektijd >= $curDate) {
+    if ($departure_time >= $curDate) {
         // Insert flight data in database
         $stmt = $db->prepare('INSERT INTO Vlucht 
     (vluchtnummer,bestemming,gatecode, max_aantal, max_gewicht_pp, max_totaalgewicht, vertrektijd, maatschappijcode) 
@@ -139,14 +152,14 @@ function addFlight($bestemming, $gatecode, $max_aantal, $max_gewicht_pp, $max_to
     (:vluchtnummer, :bestemming, :gatecode, :max_aantal, :max_gewicht_pp, :max_totaalgewicht, :vertrektijd, :maatschappijcode);');
 
         $success = $stmt->execute([
-            'vluchtnummer' => $vluchtnummer,
-            'bestemming' => $bestemming,
+            'vluchtnummer' => $flightnumber,
+            'bestemming' => $destination,
             'gatecode' => $gatecode,
-            'max_aantal' => $max_aantal,
-            'max_gewicht_pp' => $max_gewicht_pp,
-            'max_totaalgewicht' => $max_totaalgewicht,
-            'vertrektijd' => $vertrektijd,
-            'maatschappijcode' => $maatschappijcode,
+            'max_aantal' => $max_amnt,
+            'max_gewicht_pp' => $max_weight_pp,
+            'max_totaalgewicht' => $max_totalweight,
+            'vertrektijd' => $departure_time,
+            'maatschappijcode' => $firmcode,
         ]);
     }
 
@@ -154,12 +167,12 @@ function addFlight($bestemming, $gatecode, $max_aantal, $max_gewicht_pp, $max_to
         // Flight added successfully
         header('Location: succespage.php');
         exit;
-    } else if ($vertrektijd < $curDate) {
+    } else if ($departure_time < $curDate) {
         // Can't add flight if date is older than current date
-        echo "Can't add flight if date is older than current date";
+        echo "Kan vlucht niet toevoegen als de datum ouder is als de huidige datum. (Ook op seconden)";
     } else {
         // Couldn't add flight
-        echo "Something went wrong. Flight could not be added.";
+        echo "Er ging iets fout, kon vlucht niet toevoegen.";
     }
 }
 
@@ -192,23 +205,23 @@ function getMax($row, $table)
     $stmt = $db->prepare("SELECT MAX($row) FROM $table");
     $stmt->execute();
 
-    $resultaat;
-    foreach ($stmt as $rij) {
-        $resultaat = $rij[0];
+    $result;
+    foreach ($stmt as $rows) {
+        $result = $rows[0];
     }
-    return $resultaat;
+    return $result;
 }
 
 //----------------------------------------------------
 
-function addPassenger($naam, $vluchtnummer, $geslacht, $balienummer, $stoel, $inchecktijdstip)
+function addPassenger($name, $flightnumber, $sex, $srvc_desk_number, $seat, $checkin_time)
 {
     $db = maakVerbinding();
     $success = false;
 
-    if (checkPersonLimit($vluchtnummer) > 0) {
-        $inchecktijdstip = formatDate($inchecktijdstip);
-        $passagiernummer = getMax('passagiernummer', 'Passagier') + 1;
+    if (checkPersonLimit($flightnumber) > 0) {
+        $checkin_time = formatDate($flightnumber);
+        $passengernumber = getMax('passagiernummer', 'Passagier') + 1;
 
         // Insert flight data in database
         $stmt = $db->prepare('INSERT INTO Passagier 
@@ -217,13 +230,13 @@ function addPassenger($naam, $vluchtnummer, $geslacht, $balienummer, $stoel, $in
     (:passagiernummer, :naam, :vluchtnummer, :geslacht, :balienummer, :stoel, :inchecktijdstip);');
 
         $success = $stmt->execute([
-            'passagiernummer' => $passagiernummer,
-            'naam' => $naam,
-            'vluchtnummer' => $vluchtnummer,
-            'geslacht' => $geslacht,
-            'balienummer' => $balienummer,
-            'stoel' => $stoel,
-            'inchecktijdstip' => $inchecktijdstip,
+            'passagiernummer' => $passengernumber,
+            'naam' => $name,
+            'vluchtnummer' => $flightnumber,
+            'geslacht' => $sex,
+            'balienummer' => $srvc_desk_number,
+            'stoel' => $seat,
+            'inchecktijdstip' => $checkin_time,
         ]);
 
     }
@@ -234,28 +247,33 @@ function addPassenger($naam, $vluchtnummer, $geslacht, $balienummer, $stoel, $in
             exit;
         } else {
             // Couldn't add passenger
-            echo "Something went wrong. Passenger could not be added.";
+            echo "Er ging iets fout, kon passagier niet toevoegen.";
         }
     }
 
 
 //----------------------------------------------------
 
-function addBag($passagiernummer, $objectvolgnummer, $gewicht)
+function addBag($passengernumber, $object_trackingcode, $weight)
 {
     $db = maakVerbinding();
+    $success = false;
 
-    // Insert bag data in database
-    $stmt = $db->prepare('INSERT INTO BagageObject 
+    var_dump(checkCargoLimit($passengernumber));
+
+    if (checkCargoLimit($passengernumber) > 0) {
+        // Insert bag data in database
+        $stmt = $db->prepare('INSERT INTO BagageObject 
     (passagiernummer, objectvolgnummer, gewicht) 
     VALUES 
     (:passagiernummer, :objectvolgnummer, :gewicht);');
 
-    $success = $stmt->execute([
-        'passagiernummer' => $passagiernummer,
-        'objectvolgnummer' => $objectvolgnummer,
-        'gewicht' => $gewicht,
-    ]);
+        $success = $stmt->execute([
+            'passagiernummer' => $passengernumber,
+            'objectvolgnummer' => $object_trackingcode,
+            'gewicht' => $weight,
+        ]);
+    }
 
     if ($success) {
         // Bag added successfully
@@ -263,40 +281,55 @@ function addBag($passagiernummer, $objectvolgnummer, $gewicht)
         exit;
     } else {
         // Couldn't add bag
-        echo "Something went wrong. Bag could not be added.";
+        echo "Er ging iets fout, kon bagage niet toevogen.";
     }
 
 }
 
-function getCargoLimit()
+function checkCargoLimit($passengernumber)
 {
     $db = maakVerbinding();
 
-    $stmt = $db->prepare('SELECT max_aantal FROM Vlucht WHERE vluchtnummer = 1 OR 1=1);');
-    $stmt->execute();
+    $sql = 'SELECT max_totaalgewicht - SUM(gewicht)
+    FROM Vlucht v
+    INNER JOIN Passagier p ON
+                v.vluchtnummer = p.vluchtnummer
+    INNER JOIN BagageObject bo ON
+                p.passagiernummer = bo.passagiernummer
+    WHERE v.vluchtnummer = (SELECT vluchtnummer
+                            FROM Passagier
+                            WHERE passagiernummer = :passagiernummer)
+    GROUP BY max_totaalgewicht';
 
-    return $stmt;
+    $stmt = $db->prepare($sql);
+    $stmt->execute(['passagiernummer' => $passengernumber]);
+
+    $result = '';
+    foreach ($stmt as $rows) {
+        $result = $rows[0];
+    }
+    return $result;
 }
 
-function checkPersonLimit($vluchtnummer)
+function checkPersonLimit($flightnumber)
 {
     $db = maakVerbinding();
 
-    $sql = '
-    SELECT v.max_aantal - COUNT(p.vluchtnummer)
+    $sql = 'SELECT v.max_aantal - COUNT(p.vluchtnummer)
     FROM Vlucht v
     LEFT JOIN Passagier p ON
                v.vluchtnummer = p.vluchtnummer
     WHERE v.vluchtnummer = :vluchtnummer
     GROUP BY v.max_aantal, p.vluchtnummer'; 
-    $stmt = $db->prepare($sql);
-    $stmt->execute(['vluchtnummer' => $vluchtnummer]);
 
-    $resultaat = '';
-    foreach ($stmt as $rij) {
-        $resultaat = $rij[0];
+    $stmt = $db->prepare($sql);
+    $stmt->execute(['vluchtnummer' => $flightnumber]);
+
+    $result = '';
+    foreach ($stmt as $rows) {
+        $result = $rows[0];
     }
-    return $resultaat;
+    return $result;
 }
 
 ?>

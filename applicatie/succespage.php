@@ -1,3 +1,11 @@
+<?php
+require_once('functions.php'); 
+require_once('db_connectie.php');
+session_start();
+destroy_session(); 
+page_redirect(); 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +27,15 @@
             <li><a href="flights.php"><img src="images/fi-rr-plane-alt.svg" alt="Vluchten icon"></a></li>
             <li><a href="privacypolicy.php"><img src="images/fi-rr-info.svg" alt="Contact icon"></a></li>
             <li class="push"><a href="#"><img src="images/fi-rr-settings-sliders.svg" alt="Theme picker icon"></a></li>
+            <?php
+            if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
+                echo '<li>
+            <form method="post">
+            <button type="submit" name="destroy_session"><img src="images/fi-rr-exit.svg" alt="Logout"></button>
+            </form>
+            </li>';
+            }
+            ?>
         </ul>
     </nav>
     <div class="container">

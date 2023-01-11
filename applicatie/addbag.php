@@ -5,9 +5,9 @@ session_start();
 destroy_session();
 
 //Make variables
-$passagiernummer = '';
-$objectvolgnummer = '';
-$gewicht = '';
+$passengernumber = '';
+$object_trackingcode = '';
+$weight = '';
 
 //Make array for errors
 $errors = [];
@@ -17,19 +17,19 @@ $errmsg = '';
 
 if (isset($_POST['passagiernummer']) && isset($_POST['objectvolgnummer']) && isset($_POST['gewicht'])) {
     if (!empty($_POST['passagiernummer'])) {
-        $passagiernummer = $_POST['passagiernummer'];
+        $passengernumber = $_POST['passagiernummer'];
     } else {
         $errors[] = 'Er is geen passagiernummer ingevoerd';
     }
 
     if (!empty($_POST['objectvolgnummer'])) {
-        $objectvolgnummer = $_POST['objectvolgnummer'];
+        $object_trackingcode = $_POST['objectvolgnummer'];
     } else {
-        $errors[] = 'Er is geen objectvolgnummer ingevoerd';
+        $errors[] = 'Voer een getal groter dan 0 in';
     }
 
     if (!empty($_POST['gewicht'])) {
-        $gewicht = $_POST['gewicht'];
+        $weight = $_POST['gewicht'];
     } else {
         $errors[] = 'Er is geen gewicht ingevoerd';
     }
@@ -43,7 +43,7 @@ if (isset($_POST['passagiernummer']) && isset($_POST['objectvolgnummer']) && iss
         $errmsg .= '</ul>';
         //Add bag
     } else {
-        addBag($passagiernummer, $objectvolgnummer, $gewicht);
+        addBag($passengernumber, $object_trackingcode, $weight);
     }
 }
 

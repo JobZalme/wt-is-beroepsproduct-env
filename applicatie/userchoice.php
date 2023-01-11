@@ -25,7 +25,6 @@ login_redirect();
       <li><a href="flights.php"><img src="images/fi-rr-plane-alt.svg" alt="Vluchten icon"></a></li>
       <li><a href="privacypolicy.php"><img src="images/fi-rr-info.svg" alt="Contact icon"></a></li>
       <li class="push"><a href="#"><img src="images/fi-rr-settings-sliders.svg" alt="Theme picker icon"></a></li>
-      <!-- <li><a href="index.html"><img src="images/fi-rr-exit.svg" alt="Logout icon"></a></li> -->
     </ul>
   </nav>
 

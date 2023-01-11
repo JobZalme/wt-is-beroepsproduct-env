@@ -3,15 +3,16 @@ require_once('functions.php');
 require_once 'db_connectie.php';
 session_start();
 destroy_session();
+page_redirect(); 
 
 //Make variables
-$bestemming = '';
+$destination = '';
 $gatecode = '';
-$max_aantal = '';
-$max_gewicht_pp = '';
-$max_totaalgewicht = '';
-$vertrektijd = '';
-$maatschappijcode = '';
+$max_amnt = '';
+$max_weight_pp = '';
+$max_totalweight = '';
+$departure_time = '';
+$firmcode = '';
 
 
 //Make array for errors
@@ -23,7 +24,7 @@ $errmsg = '';
 if (isset($_POST['bestemming']) && isset($_POST['gatecode']) && isset($_POST['max_aantal']) && isset($_POST['max_gewicht_pp'])
     && isset($_POST['max_totaalgewicht']) && isset($_POST['vertrektijd']) && isset($_POST['maatschappijcode'])) {
     if (!empty($_POST['bestemming'])) {
-        $bestemming = $_POST['bestemming'];
+        $destination = $_POST['bestemming'];
     } else {
         $errors[] = 'Er is geen bestemming ingevoerd';
     }
@@ -35,31 +36,31 @@ if (isset($_POST['bestemming']) && isset($_POST['gatecode']) && isset($_POST['ma
     }
 
     if (!empty($_POST['max_aantal'])) {
-        $max_aantal = $_POST['max_aantal'];
+        $max_amnt = $_POST['max_aantal'];
     } else {
         $errors[] = 'Er is geen max_aantal ingevoerd';
     }
 
     if (!empty($_POST['max_gewicht_pp'])) {
-        $max_gewicht_pp = $_POST['max_gewicht_pp'];
+        $max_weight_pp = $_POST['max_gewicht_pp'];
     } else {
         $errors[] = 'Er is geen max_gewicht_pp ingevoerd';
     }
 
     if (!empty($_POST['max_totaalgewicht'])) {
-        $max_totaalgewicht = $_POST['max_totaalgewicht'];
+        $max_totalweight = $_POST['max_totaalgewicht'];
     } else {
         $errors[] = 'Er is geen max_totaalgewicht ingevoerd';
     }
 
     if (!empty($_POST['vertrektijd'])) {
-        $vertrektijd = $_POST['vertrektijd'];
+        $departure_time = $_POST['vertrektijd'];
     } else {
         $errors[] = 'Er is geen vertrektijd ingevoerd';
     }
 
     if (!empty($_POST['maatschappijcode'])) {
-        $maatschappijcode = $_POST['maatschappijcode'];
+        $firmcode = $_POST['maatschappijcode'];
     } else {
         $errors[] = 'Er is geen maatschappijcode ingevoerd';
     }
@@ -73,7 +74,7 @@ if (isset($_POST['bestemming']) && isset($_POST['gatecode']) && isset($_POST['ma
         $errmsg .= '</ul>';
         //Add flight connection
     } else {
-        addFlight($bestemming, $gatecode, $max_aantal, $max_gewicht_pp, $max_totaalgewicht, $vertrektijd, $maatschappijcode);
+        addFlight($destination, $gatecode, $max_amnt, $max_weight_pp, $max_totalweight, $departure_time, $firmcode);
     }
 }
 

@@ -5,7 +5,7 @@ session_start();
 destroy_session();
 
 
-$vluchtnummer = '';
+$flightnumber = '';
 $fi = false; 
 
 //Make array for errors
@@ -16,7 +16,7 @@ $errmsg = '';
 
 if (isset($_POST['vluchtnummer'])) {
   if (!empty($_POST['vluchtnummer'])) {
-    $vluchtnummer = $_POST['vluchtnummer'];
+    $flightnumber = $_POST['vluchtnummer'];
     $fi = true; 
   } else {
     $errors[] = 'Er is geen vluchtnummer ingevoerd';
@@ -29,7 +29,6 @@ if (isset($_POST['vluchtnummer'])) {
       $errmsg .= '<li>' . $error . '</li>';
     }
     $errmsg .= '</ul>';
-    //Add bag
   }
 }
 ?>
@@ -70,14 +69,15 @@ if (isset($_POST['vluchtnummer'])) {
     <div class="container">
       <form action="index.php" name="travelForm" method="POST">
         <h2>Vind een vlucht</h2>
+        <?php echo $errmsg ?>
         <input type="number" name="vluchtnummer" id="vluchtnummer" placeholder="Vluchtnummer" pattern="[0-9]">
         <button type="submit" name="submit" class="button" id="submit">Zoeken</button>
         <?php
-        if(isset($_POST['submit']) && $vluchtnummer > 0) {
+        if(isset($_POST['submit']) && $flightnumber > 0) {
           if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) {
-            echo getFlights(true, $vluchtnummer);
+            echo getFlights(true, $flightnumber);
             } else {
-            echo getFlights(false, $vluchtnummer);
+            echo getFlights(false, $flightnumber);
             }
           }
           ?>

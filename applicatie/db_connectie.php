@@ -1,5 +1,4 @@
 <?php
-
 // defined in 'variables.env'
 $db_host = 'database_server'; // de database server 
 $db_name = 'GelreAirport';                    // naam van database

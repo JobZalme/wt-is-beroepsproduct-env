@@ -3,14 +3,15 @@ require_once('functions.php');
 require_once 'db_connectie.php';
 session_start();
 destroy_session();
+page_redirect(); 
 
 //Make variables
-$naam = '';
-$vluchtnummer = '';
-$geslacht = '';
-$balienummer = '';
-$stoel = '';
-$inchecktijdstip = '';
+$name = '';
+$flightnumber = '';
+$sex = '';
+$srvc_desk_number = '';
+$seat = '';
+$checkin_time = '';
 
 //Make array for errors
 $errors = [];
@@ -21,37 +22,37 @@ $errmsg = '';
 if (isset($_POST['naam']) && isset($_POST['vluchtnummer']) && isset($_POST['geslacht']) && isset($_POST['balienummer']) 
     && isset($_POST['stoel']) && isset($_POST['inchecktijdstip'])) {
     if (!empty($_POST['naam'])) {
-        $naam = $_POST['naam'];
+        $name = $_POST['naam'];
     } else {
         $errors[] = 'Er is geen naam ingevoerd';
     }
 
     if (!empty($_POST['vluchtnummer'])) {
-        $vluchtnummer = $_POST['vluchtnummer'];
+        $flightnumber = $_POST['vluchtnummer'];
     } else {
         $errors[] = 'Er is geen vluchtnummer ingevoerd';
     }
 
     if (!empty($_POST['geslacht'])) {
-        $geslacht = $_POST['geslacht'];
+        $sex = $_POST['geslacht'];
     } else {
         $errors[] = 'Er is geen geslacht ingevoerd';
     }
 
     if (!empty($_POST['balienummer'])) {
-        $balienummer = $_POST['balienummer'];
+        $srvc_desk_number = $_POST['balienummer'];
     } else {
         $errors[] = 'Er is geen balienummer ingevoerd';
     }
 
     if (!empty($_POST['stoel'])) {
-        $stoel = $_POST['stoel'];
+        $seat = $_POST['stoel'];
     } else {
         $errors[] = 'Er is geen stoel ingevoerd';
     }
 
     if (!empty($_POST['inchecktijdstip'])) {
-        $inchecktijdstip = $_POST['inchecktijdstip'];
+        $checkin_time = $_POST['inchecktijdstip'];
     } else {
         $errors[] = 'Er is geen inchecktijdstip ingevoerd';
     }
@@ -65,7 +66,7 @@ if (isset($_POST['naam']) && isset($_POST['vluchtnummer']) && isset($_POST['gesl
         $errmsg .= '</ul>';
         //Add passenger
     } else {
-        addPassenger($naam,$vluchtnummer, $geslacht, $balienummer, $stoel, $inchecktijdstip); 
+        addPassenger($name,$flightnumber, $sex, $srvc_desk_number, $seat, $checkin_time); 
     }
 }
 
@@ -107,6 +108,7 @@ if (isset($_POST['naam']) && isset($_POST['vluchtnummer']) && isset($_POST['gesl
         <div class="container">
             <form action="addpassenger.php" method="POST" id="flightoptions">
                 <h2>Passagier toevoegen</h2>
+                <?php echo $errmsg ?>
                 <label for="naam">Naam: </label>
                 <input type="text" name="naam" id="naam" pattern="[A-Za-z].{2,}">
                 <br>

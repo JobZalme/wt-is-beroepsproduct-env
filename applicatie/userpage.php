@@ -2,6 +2,7 @@
 require_once('functions.php');
 session_start();
 destroy_session();
+page_redirect(); 
 ?>
 
 <!DOCTYPE html>
